@@ -4,6 +4,7 @@ import { getProfile } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import { money } from "@/lib/format";
 import { t } from "@/lib/i18n/hr";
+import { describeTargeting, hasTargeting, matchesTargeting } from "@/lib/targeting";
 import { claimSlot } from "../actions";
 
 export default async function OfferPage({ params, searchParams }: PageProps<"/ponude/[slug]">) {
@@ -15,7 +16,7 @@ export default async function OfferPage({ params, searchParams }: PageProps<"/po
   const { data: c } = await supabase
     .from("campaigns")
     .select(
-      "id, slug, title, description, product_name, product_url, product_image_url, product_price, currency, discount_percent, slots_total, slots_taken, review_deadline_days, min_photos, requirements, fulfillment_mode, purchase_instructions, external_review_url, status, brands(name)",
+      "id, slug, title, description, product_name, product_url, product_image_url, product_price, currency, discount_percent, slots_total, slots_taken, review_deadline_days, min_photos, requirements, fulfillment_mode, purchase_instructions, external_review_url, status, target_gender, target_age_min, target_age_max, target_interests, brands(name)",
     )
     .eq("slug", slug)
     .eq("status", "active")
@@ -34,6 +35,7 @@ export default async function OfferPage({ params, searchParams }: PageProps<"/po
     alreadyClaimed = !!order;
   }
 
+  const eligible = profile?.role !== "tester" || matchesTargeting(c, profile, new Date().getFullYear());
   const brand = Array.isArray(c.brands) ? c.brands[0] : c.brands;
   const price = Number(c.product_price);
   const left = c.slots_total - c.slots_taken;
@@ -80,6 +82,7 @@ export default async function OfferPage({ params, searchParams }: PageProps<"/po
             <p className="mt-1 whitespace-pre-line text-sm text-stone-700">{c.requirements}</p>
           </>
         )}
+        {hasTargeting(c) && <p className="mt-4 text-sm font-semibold">{t.targeting.forWhom}: {describeTargeting(c)}</p>}
         <p className="mt-4 text-sm text-stone-600">{o.rules(c.review_deadline_days, c.min_photos)}</p>
         {c.external_review_url && <p className="mt-2 text-sm text-stone-600">{o.extStep}</p>}
       </section>
@@ -96,6 +99,11 @@ export default async function OfferPage({ params, searchParams }: PageProps<"/po
           <div className="mt-3">
             <p className="text-sm text-stone-700">{o.alreadyClaimed}</p>
             <Link href="/moji-testovi" className="btn mt-3">{o.seeMyTests}</Link>
+          </div>
+        ) : !eligible ? (
+          <div className="mt-3">
+            <p className="text-sm text-stone-700">{t.targeting.notEligible} {t.targeting.notEligibleIncomplete}</p>
+            <Link href="/profil" className="btn-ghost mt-3">{t.targeting.completeProfile}</Link>
           </div>
         ) : left <= 0 ? (
           <p className="mt-3 text-sm text-stone-600">{o.full}</p>

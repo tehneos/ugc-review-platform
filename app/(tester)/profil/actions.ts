@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import { requireTester } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
+import { INTERESTS } from "@/lib/targeting";
 
 const schema = z.object({
   display_name: z.string().trim().max(40),
@@ -19,6 +20,11 @@ export async function updateProfile(formData: FormData) {
   if (!parsed.success) redirect("/profil?greska=1");
 
   const wantsConsent = formData.get("media_consent") === "on";
+  const rawYear = Number(formData.get("birth_year") ?? "");
+  const thisYear = new Date().getFullYear();
+  // platforma je za punoljetne; neispravna godina se ne sprema
+  const birthYear = Number.isInteger(rawYear) && rawYear >= 1900 && rawYear <= thisYear - 18 ? rawYear : null;
+  const gender = String(formData.get("gender") ?? "");
   const supabase = await createClient();
   const { error } = await supabase
     .from("profiles")
@@ -26,6 +32,9 @@ export async function updateProfile(formData: FormData) {
       display_name: parsed.data.display_name || null,
       phone: parsed.data.phone || null,
       whatsapp_opt_in: formData.get("whatsapp_opt_in") === "on",
+      birth_year: birthYear,
+      gender: ["female", "male", "other"].includes(gender) ? gender : null,
+      interests: INTERESTS.filter((i) => formData.getAll("interests").includes(i)),
       // Datum privole čuva se od prvog pristanka; povlačenje ga briše.
       media_consent_at: wantsConsent ? (profile.media_consent_at ?? new Date().toISOString()) : null,
     })

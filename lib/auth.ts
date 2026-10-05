@@ -17,6 +17,9 @@ export type Profile = {
   terms_accepted_at: string | null;
   media_consent_at: string | null;
   whatsapp_opt_in: boolean;
+  birth_year: number | null;
+  gender: "female" | "male" | "other" | null;
+  interests: string[];
 };
 
 export async function getProfile(): Promise<Profile | null> {

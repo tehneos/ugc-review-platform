@@ -4,7 +4,8 @@ import { requireBrandMember } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import { money } from "@/lib/format";
 import { t } from "@/lib/i18n/hr";
-import { closeCampaign, importCoupons, setCampaignStatus, setReviewUrl, updateCampaign } from "../actions";
+import { describeTargeting, hasTargeting, INTERESTS } from "@/lib/targeting";
+import { closeCampaign, importCoupons, setCampaignStatus, setReviewUrl, setTargeting, updateCampaign } from "../actions";
 
 export default async function CampaignDetailPage({ params, searchParams }: PageProps<"/dashboard/kampanje/[id]">) {
   const { brand } = await requireBrandMember();
@@ -16,7 +17,7 @@ export default async function CampaignDetailPage({ params, searchParams }: PageP
   const supabase = await createClient();
   const { data: c } = await supabase
     .from("campaigns")
-    .select("id, slug, title, product_name, product_price, currency, discount_percent, status, slots_total, slots_taken, fulfillment_mode, coupon_mode, external_review_url, description, product_url, product_image_url, purchase_instructions, requirements, min_photos, deleted_at")
+    .select("id, slug, title, product_name, product_price, currency, discount_percent, status, slots_total, slots_taken, fulfillment_mode, coupon_mode, external_review_url, description, product_url, product_image_url, purchase_instructions, requirements, min_photos, deleted_at, target_gender, target_age_min, target_age_max, target_interests")
     .eq("id", id)
     .eq("brand_id", brand.id)
     .maybeSingle();
@@ -94,6 +95,50 @@ export default async function CampaignDetailPage({ params, searchParams }: PageP
           <button className="btn-ghost">{d.externalSave}</button>
         </form>
       </section>
+
+      {editable && (
+        <section className="card mt-6">
+          <h2 className="font-semibold">{t.targeting.brandTitle}</h2>
+          <p className="mt-1 text-sm text-ink/65">{t.targeting.brandIntro}</p>
+          <p className="mt-2 text-sm font-semibold">
+            {t.targeting.current}: {hasTargeting(c) ? describeTargeting(c) : t.targeting.everyone}
+          </p>
+          {sp.ciljanje && <p role="status" className="mt-2 text-sm text-teal-900">{t.targeting.saved}</p>}
+          <form action={setTargeting} className="mt-4 space-y-4">
+            <input type="hidden" name="campaign_id" value={c.id} />
+            <div className="grid gap-4 sm:grid-cols-3">
+              <div>
+                <label className="label" htmlFor="target_gender">{t.targeting.gender}</label>
+                <select className="input" id="target_gender" name="target_gender" defaultValue={c.target_gender ?? ""}>
+                  <option value="">{t.targeting.allGenders}</option>
+                  <option value="female">{t.targeting.genderPlural.female}</option>
+                  <option value="male">{t.targeting.genderPlural.male}</option>
+                </select>
+              </div>
+              <div>
+                <label className="label" htmlFor="target_age_min">{t.targeting.ageMin}</label>
+                <input className="input" id="target_age_min" name="target_age_min" type="number" min={18} max={99} defaultValue={c.target_age_min ?? ""} />
+              </div>
+              <div>
+                <label className="label" htmlFor="target_age_max">{t.targeting.ageMax}</label>
+                <input className="input" id="target_age_max" name="target_age_max" type="number" min={18} max={99} defaultValue={c.target_age_max ?? ""} />
+              </div>
+            </div>
+            <div>
+              <span className="label">{t.targeting.interestsBrand}</span>
+              <div className="flex flex-wrap gap-2">
+                {INTERESTS.map((i) => (
+                  <label key={i} className="flex min-h-11 cursor-pointer items-center gap-2 rounded-full border border-stone-300 bg-white px-4 text-sm has-checked:border-ink has-checked:bg-brand">
+                    <input type="checkbox" name="target_interests" value={i} defaultChecked={c.target_interests.includes(i)} className="sr-only" />
+                    {t.targeting.interests[i]}
+                  </label>
+                ))}
+              </div>
+            </div>
+            <button className="btn-ghost">{t.targeting.save}</button>
+          </form>
+        </section>
+      )}
 
       <form action={setCampaignStatus} className="mt-6 flex flex-wrap items-center gap-3">
         <input type="hidden" name="campaign_id" value={c.id} />

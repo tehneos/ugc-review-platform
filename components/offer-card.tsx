@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { money } from "@/lib/format";
 import { t } from "@/lib/i18n/hr";
+import { describeTargeting, hasTargeting, TARGET_COLUMNS, type Targeting } from "@/lib/targeting";
 
 export type Offer = {
   id: string;
@@ -13,10 +14,10 @@ export type Offer = {
   slots_total: number;
   slots_taken: number;
   brands: { name: string } | { name: string }[] | null;
-};
+} & Targeting;
 
 export const OFFER_COLUMNS =
-  "id, slug, product_name, product_image_url, product_price, currency, discount_percent, slots_total, slots_taken, brands(name)";
+  `id, slug, product_name, product_image_url, product_price, currency, discount_percent, slots_total, slots_taken, ${TARGET_COLUMNS}, brands(name)`;
 
 /** Kartica ponude: fotografija proizvoda je glavni element, popust je značka preko nje. */
 export function OfferCard({ offer: c }: { offer: Offer }) {
@@ -50,6 +51,7 @@ export function OfferCard({ offer: c }: { offer: Offer }) {
           <span className="text-lg font-extrabold">{free ? t.offers.free : money(price * (1 - c.discount_percent / 100), c.currency)}</span>
           <span className="text-sm text-ink/45 line-through">{money(price, c.currency)}</span>
         </p>
+        {hasTargeting(c) && <p className="mt-2 text-xs text-ink/60">{t.targeting.forWhom}: {describeTargeting(c)}</p>}
         <p className={`mt-auto pt-3 text-xs font-semibold ${left > 0 ? "text-ink/60" : "text-ink/40"}`}>
           {left > 0 ? t.offers.slotsLeft(left) : t.offer.full}
         </p>

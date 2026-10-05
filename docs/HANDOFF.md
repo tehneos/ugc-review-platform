@@ -30,6 +30,8 @@ Dvosmjerna platforma za HR/SEE tržište: brendovi objavljuju testne kampanje (p
 - Brend uređuje vlastitu kampanju (`update_campaign`): nakon prve prijave testera zaključani su proizvod, cijena, popust, broj fotografija i način; broj mjesta se može samo povećati. `close_campaign` briše kampanju bez testera (`deleted_at`), a onu s testerima zatvara za nove prijave (`completed`).
 - Admin (`/admin`): blokada korisnika, korekcija pouzdanosti, ispravak i otkazivanje kampanja, skrivanje recenzija (`flagged`). Ništa se fizički ne briše.
 
+- Ciljanje: tester u profilu neobavezno upisuje godinu rođenja, spol i interese; kampanja može ciljati spol, raspon dobi i interese (`set_campaign_targeting`). Pravila su u `campaign_matches_profile` (baza, mjerodavno) i `lib/targeting.ts` (prikaz); `claim_campaign_slot` vraća `NOT_ELIGIBLE`.
+
 ## Što je testirano
 - Funkcije u bazi: testirane SQL skriptama u transakciji s poništavanjem (sretni put i odbijanja).
 - Sučelje: ručno ga je prošao vlasnik (registracija, kampanja, zauzimanje mjesta, dostava). Automatskih testova nema.

@@ -110,6 +110,23 @@ export async function updateCampaign(formData: FormData) {
   redirect(`/dashboard/kampanje/${id}?${error ? `greska=${errorCode(error.message)}` : "uredeno=1"}`);
 }
 
+export async function setTargeting(formData: FormData) {
+  await requireBrandMember();
+  const id = str(formData, "campaign_id");
+  const age = (key: string) => (str(formData, key) === "" ? null : Number(str(formData, key)));
+  const gender = str(formData, "target_gender");
+  const supabase = await createClient();
+  const { error } = await supabase.rpc("set_campaign_targeting", {
+    p_campaign_id: id,
+    p_gender: gender === "female" || gender === "male" ? gender : null,
+    p_age_min: age("target_age_min"),
+    p_age_max: age("target_age_max"),
+    p_interests: formData.getAll("target_interests").map(String),
+  });
+  if (!error) revalidatePath("/ponude");
+  redirect(`/dashboard/kampanje/${id}?${error ? `greska=${errorCode(error.message)}` : "ciljanje=1"}`);
+}
+
 export async function closeCampaign(formData: FormData) {
   await requireBrandMember();
   const id = str(formData, "campaign_id");
