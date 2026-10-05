@@ -12,11 +12,14 @@ type Media = { storage_path: string; position: number; removed_at: string | null
 /** Ilustracija toka u heroju: nacrtano sučelje, bez izmišljenih osoba i citata. */
 function HeroArt() {
   const h = t.landing.art;
+  const [main, thumbA, thumbB] = t.landing.exampleOffers.map((o) => o.image);
   return (
     <div aria-hidden className="relative mx-auto h-[340px] w-full max-w-md sm:h-[400px]">
       <div className="absolute inset-0 rounded-[2.5rem] bg-gradient-to-br from-tint via-white to-tint-2" />
       <div className="absolute top-8 left-6 w-52 rotate-[-5deg] rounded-2xl border border-stone-200 bg-white p-3 shadow-xl sm:w-60">
-        <div className="relative aspect-[4/3] rounded-xl bg-gradient-to-br from-brand/20 to-tint-2">
+        <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-gradient-to-br from-brand/20 to-tint-2">
+          {/* eslint-disable-next-line @next/next/no-img-element -- ukrasna fotografija s Unsplasha */}
+          <img src={main} alt="" className="h-full w-full object-cover" />
           <span className="absolute top-2 left-2 rounded-full bg-brand px-2.5 py-0.5 text-[11px] font-bold text-white">−70 %</span>
         </div>
         <div className="mt-3 h-2.5 w-3/4 rounded-full bg-ink/15" />
@@ -29,8 +32,10 @@ function HeroArt() {
         <div className="mt-2 h-2.5 w-5/6 rounded-full bg-ink/10" />
         <div className="mt-2 h-2.5 w-2/3 rounded-full bg-ink/10" />
         <div className="mt-3 flex gap-2">
-          <div className="h-12 w-12 rounded-lg bg-gradient-to-br from-tint-2 to-brand/25" />
-          <div className="h-12 w-12 rounded-lg bg-gradient-to-br from-brand/20 to-tint" />
+          {/* eslint-disable-next-line @next/next/no-img-element -- ukrasna fotografija s Unsplasha */}
+          <img src={thumbA} alt="" className="h-12 w-12 rounded-lg bg-tint-2 object-cover" />
+          {/* eslint-disable-next-line @next/next/no-img-element -- ukrasna fotografija s Unsplasha */}
+          <img src={thumbB} alt="" className="h-12 w-12 rounded-lg bg-tint-2 object-cover" />
         </div>
         <p className="mt-3 inline-block rounded-full bg-tint-2 px-2.5 py-1 text-[10px] font-semibold text-ink/70">{h.badge}</p>
       </div>
