@@ -17,6 +17,7 @@ export async function SiteHeader() {
           { href: "/dashboard/kampanje", label: t.nav.campaigns },
           { href: "/dashboard/narudzbe", label: t.nav.orders },
           { href: "/dashboard/recenzije", label: t.nav.reviews },
+          { href: "/dashboard/widgeti", label: t.nav.widgets },
         ];
 
   return (
