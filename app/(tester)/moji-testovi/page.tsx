@@ -4,6 +4,9 @@ import { createClient } from "@/lib/supabase/server";
 import { day } from "@/lib/format";
 import { t } from "@/lib/i18n/hr";
 
+/** Stanja u kojima je sljedeći korak na testeru. */
+const NEEDS_TESTER = new Set(["claimed", "purchase_verified"]);
+
 export const metadata = { title: t.myTests.title };
 
 export default async function MyTestsPage() {
@@ -11,7 +14,7 @@ export default async function MyTestsPage() {
   const supabase = await createClient();
   const { data: orders } = await supabase
     .from("orders")
-    .select("id, status, coupon_code, purchase_due_at, review_due_at, campaigns(product_name, product_url, fulfillment_mode, brands(name))")
+    .select("id, status, coupon_code, shipped_at, purchase_due_at, review_due_at, campaigns(product_name, product_url, fulfillment_mode, brands(name))")
     .eq("tester_id", profile.id)
     .order("claimed_at", { ascending: false });
 
@@ -55,11 +58,15 @@ export default async function MyTestsPage() {
                     )}
                   </div>
                 )}
-                {o.status === "claimed" && ships && <p className="mt-3 text-sm text-stone-700">{t.order.waitingShipment}</p>}
-                {o.status === "purchase_verified" && o.review_due_at && (
-                  <p className="mt-3 text-sm font-medium text-stone-800">{t.order.reviewBy(day(o.review_due_at))}
-                <Link href={`/moji-testovi/${o.id}`} className="btn-ghost mt-4">{t.test.open}</Link></p>
+                {o.status === "claimed" && ships && (
+                  <p className="mt-3 text-sm text-stone-700">{o.shipped_at ? t.test.shippedAction : t.order.waitingShipment}</p>
                 )}
+                {o.status === "purchase_verified" && o.review_due_at && (
+                  <p className="mt-3 text-sm font-medium text-stone-800">{t.order.reviewBy(day(o.review_due_at))}</p>
+                )}
+                <Link href={`/moji-testovi/${o.id}`} className={`${NEEDS_TESTER.has(o.status) && (!ships || o.shipped_at || o.status !== "claimed") ? "btn" : "btn-ghost"} mt-4`}>
+                  {t.test.open}
+                </Link>
               </li>
             );
           })}

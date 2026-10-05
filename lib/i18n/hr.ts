@@ -150,6 +150,7 @@ export const hr = {
     proofRejected: "Brend nije prihvatio dokaz:",
     waitingVerify: "Dokaz je poslan. Čeka se potvrda brenda.",
     shipped: "Brend je poslao proizvod.",
+    shippedAction: "Brend je poslao proizvod. Otvori test i potvrdi primitak kad stigne.",
     tracking: "Broj pošiljke",
     confirmReceived: "Primio sam proizvod",
     receivedHint: "Potvrdom primitka počinje rok za recenziju.",
