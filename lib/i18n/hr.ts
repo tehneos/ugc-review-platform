@@ -1,6 +1,6 @@
 /** Sav tekst sučelja na jednom mjestu; novo tržište = nova datoteka istog oblika. */
 export const hr = {
-  appName: "Probaj",
+  appName: "Isprobaj",
   nav: {
     offers: "Ponude",
     how: "Kako radi",
