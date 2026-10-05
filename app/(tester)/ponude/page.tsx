@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { t } from "@/lib/i18n/hr";
 
@@ -26,7 +27,8 @@ export default async function OffersPage() {
             const brand = Array.isArray(c.brands) ? c.brands[0] : c.brands;
             const price = Number(c.product_price) * (1 - c.discount_percent / 100);
             return (
-              <li key={c.id} className="card">
+              <li key={c.id}>
+                <Link href={`/ponude/${c.slug}`} className="card block h-full hover:border-brand">
                 <p className="text-xs font-medium text-stone-500">{brand?.name}</p>
                 <h2 className="mt-1 font-semibold">{c.product_name}</h2>
                 <p className="mt-2 text-lg font-bold text-brand">
@@ -36,6 +38,7 @@ export default async function OffersPage() {
                   <span className="ml-2 text-sm font-medium text-stone-500">−{c.discount_percent} %</span>
                 </p>
                 <p className="mt-2 text-sm text-stone-600">{t.offers.slotsLeft(c.slots_total - c.slots_taken)}</p>
+                </Link>
               </li>
             );
           })}

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { requireBrandMember } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
@@ -38,6 +39,7 @@ export default async function DashboardPage() {
         ))}
       </dl>
       {campaigns === 0 && <p className="card mt-6 text-stone-600">{t.dashboard.noCampaigns}</p>}
+      <Link href="/dashboard/kampanje/nova" className="btn mt-6">{t.campaigns.new}</Link>
     </>
   );
 }

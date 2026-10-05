@@ -20,7 +20,8 @@ create or replace function create_campaign(
   p_requirements text default null,
   p_min_photos int default 1
 ) returns uuid
-language plpgsql security definer set search_path = public as $$
+-- extensions je na putanji zbog gen_random_bytes (pgcrypto)
+language plpgsql security definer set search_path = public, extensions as $$
 declare
   v_brand brands;
   v_slug  text;
@@ -151,9 +152,10 @@ create policy coupons_member_read on campaign_coupons for select
                   where c.id = campaign_id and is_brand_member(c.brand_id)));
 
 -- ---------- Zauzimanje mjesta: adresa za dostavu ---------------------
-drop function claim_slot(uuid);
+-- Nova funkcija umjesto izmjene stare; stara claim_slot(uuid) ostaje, ali je nitko ne smije zvati.
+revoke execute on function claim_slot(uuid) from public, anon, authenticated;
 
-create or replace function claim_slot(p_campaign_id uuid, p_shipping_address jsonb default null)
+create or replace function claim_campaign_slot(p_campaign_id uuid, p_shipping_address jsonb default null)
 returns orders
 language plpgsql security definer set search_path = public as $$
 declare
@@ -273,7 +275,7 @@ revoke execute on function
   add_campaign_coupons(uuid, text[]),
   publish_campaign(uuid),
   pause_campaign(uuid),
-  claim_slot(uuid, jsonb)
+  claim_campaign_slot(uuid, jsonb)
   from public, anon;
 grant execute on function
   create_campaign(uuid, text, text, text, numeric, int, int, fulfillment_mode, coupon_mode,
@@ -281,5 +283,5 @@ grant execute on function
   add_campaign_coupons(uuid, text[]),
   publish_campaign(uuid),
   pause_campaign(uuid),
-  claim_slot(uuid, jsonb)
+  claim_campaign_slot(uuid, jsonb)
   to authenticated;

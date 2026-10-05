@@ -12,7 +12,10 @@ export async function SiteHeader() {
           { href: "/moji-testovi", label: t.nav.myTests },
           { href: "/profil", label: t.nav.profile },
         ]
-      : [{ href: "/dashboard", label: t.nav.dashboard }];
+      : [
+          { href: "/dashboard", label: t.nav.dashboard },
+          { href: "/dashboard/kampanje", label: t.nav.campaigns },
+        ];
 
   return (
     <header className="border-b border-stone-200 bg-white">
