@@ -58,7 +58,7 @@ export default async function AdminPage({ searchParams }: PageProps<"/admin">) {
   return (
     <>
       <SiteHeader />
-      <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-8">
+      <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">
         <h1 className="text-2xl font-bold">{a.title}</h1>
         {sp.greska && <p role="alert" className="mt-4 rounded-lg bg-red-50 p-3 text-sm text-red-800">{t.auth.errors.generic}</p>}
 
