@@ -94,8 +94,9 @@ export default async function LandingPage() {
             <ul className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {l.exampleOffers.map((o) => (
                 <li key={o.name} className="relative overflow-hidden rounded-2xl border border-dashed border-ink/25 bg-white">
-                  <div aria-hidden className="relative flex aspect-[4/3] items-center justify-center bg-gradient-to-br from-tint to-tint-2 text-6xl font-extrabold text-brand/25">
-                    {o.name.charAt(0)}
+                  <div className="relative aspect-[4/3] bg-gradient-to-br from-tint to-tint-2">
+                    {/* eslint-disable-next-line @next/next/no-img-element -- ilustrativna fotografija s Unsplasha */}
+                    <img src={o.image} alt={`${l.exampleImageAlt}: ${o.name}`} loading="lazy" className="h-full w-full object-cover" />
                     <span className="absolute top-3 left-3 rounded-full bg-brand px-3 py-1 text-xs font-bold text-white">
                       {o.discount === 100 ? t.offers.free : `−${o.discount} %`}
                     </span>
@@ -176,10 +177,8 @@ export default async function LandingPage() {
                   <p className="mt-1 text-lg"><Stars rating={r.rating} /></p>
                   <h3 className="mt-1 font-bold">{r.title}</h3>
                   <p className="mt-2 text-sm text-ink/80">{r.body}</p>
-                  <div aria-hidden className="mt-3 flex gap-2">
-                    <div className="h-20 w-20 rounded-xl bg-gradient-to-br from-tint-2 to-brand/25" />
-                    <div className="h-20 w-20 rounded-xl bg-gradient-to-br from-brand/20 to-tint" />
-                  </div>
+                  {/* eslint-disable-next-line @next/next/no-img-element -- ilustrativna fotografija s Unsplasha */}
+                  <img src={r.image} alt={`${l.exampleImageAlt}: ${r.product}`} loading="lazy" className="mt-3 h-20 w-20 rounded-xl object-cover" />
                 </li>
               ))}
             </ul>
@@ -189,7 +188,7 @@ export default async function LandingPage() {
         <section id="za-brendove" className="scroll-mt-20 px-4 py-10">
           <div className="mx-auto grid max-w-6xl gap-8 rounded-[2rem] bg-ink px-6 py-12 text-white sm:px-12 lg:grid-cols-2 lg:items-center">
             <div>
-              <p className="text-xs font-bold tracking-widest text-sky-300 uppercase">{l.brandEyebrow}</p>
+              <p className="text-xs font-bold tracking-widest text-red-300 uppercase">{l.brandEyebrow}</p>
               <h2 className="section-title mt-2">{l.brandTitle}</h2>
               <p className="mt-4 max-w-md text-white/75">{l.brandText}</p>
               <Link href="/registracija?uloga=brand" className="btn-light mt-7 px-8">{l.ctaBrand}</Link>

@@ -3,11 +3,11 @@
 
 @theme inline {
   --font-sans: "Plus Jakarta Sans Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --color-brand: #2148d6;
-  --color-brand-dark: #1a39ad;
+  --color-brand: #e50914;
+  --color-brand-dark: #b20710;
   --color-ink: #1d1a39;
-  --color-tint: #eef3ff;
-  --color-tint-2: #f1f4f9;
+  --color-tint: #fff1f1;
+  --color-tint-2: #f5f5f4;
 }
 
 body {
