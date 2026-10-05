@@ -72,6 +72,7 @@ export default async function CampaignDetailPage({ params, searchParams }: PageP
           <>
             <p className="mt-2 text-sm text-stone-600">{d.couponsCount(free, total)}</p>
             {missing > 0 && <p className="mt-1 text-sm font-medium text-amber-800">{d.couponsNeeded(missing)}</p>}
+            {c.status === "draft" && <p className="mt-2 rounded-lg bg-tint-2 p-3 text-sm text-ink/80">{d.switchToShared}</p>}
             <form action={importCoupons} className="mt-4 space-y-3">
               <input type="hidden" name="campaign_id" value={c.id} />
               <label className="label" htmlFor="codes">{d.importLabel}</label>
@@ -161,8 +162,8 @@ export default async function CampaignDetailPage({ params, searchParams }: PageP
                 <fieldset>
                   <legend className="label">{f.couponMode}</legend>
                   <div className="space-y-2 text-sm">
-                    <label className="flex items-center gap-2"><input type="radio" name="coupon_mode" value="unique" defaultChecked={c.coupon_mode === "unique"} /> {f.couponUnique}</label>
                     <label className="flex items-center gap-2"><input type="radio" name="coupon_mode" value="shared" defaultChecked={c.coupon_mode === "shared"} /> {f.couponShared}</label>
+                    <label className="flex items-center gap-2"><input type="radio" name="coupon_mode" value="unique" defaultChecked={c.coupon_mode === "unique"} /> {f.couponUnique}</label>
                   </div>
                 </fieldset>
               </>
@@ -171,7 +172,7 @@ export default async function CampaignDetailPage({ params, searchParams }: PageP
             )}
             {c.fulfillment_mode === "coupon_purchase" && (c.coupon_mode === "shared" || c.status === "draft") && (
               <div>
-                <label className="label" htmlFor="e-shared_coupon_code">{d.newSharedCode}</label>
+                <label className="label" htmlFor="e-shared_coupon_code">{c.coupon_mode === "shared" ? d.newSharedCode : f.shared_coupon_code}</label>
                 <input className="input" id="e-shared_coupon_code" name="shared_coupon_code" maxLength={64} />
               </div>
             )}

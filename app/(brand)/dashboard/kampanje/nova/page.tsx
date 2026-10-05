@@ -70,8 +70,8 @@ export default async function NewCampaignPage({ searchParams }: PageProps<"/dash
         <fieldset className="rounded-lg border border-stone-200 p-4">
           <legend className="label px-1">{f.couponMode}</legend>
           <div className="space-y-2 text-sm">
-            <label className="flex items-center gap-2"><input type="radio" name="coupon_mode" value="unique" defaultChecked /> {f.couponUnique}</label>
-            <label className="flex items-center gap-2"><input type="radio" name="coupon_mode" value="shared" /> {f.couponShared}</label>
+            <label className="flex items-center gap-2"><input type="radio" name="coupon_mode" value="shared" defaultChecked /> {f.couponShared}</label>
+            <label className="flex items-center gap-2"><input type="radio" name="coupon_mode" value="unique" /> {f.couponUnique}</label>
           </div>
           <label className="label mt-3" htmlFor="shared_coupon_code">{f.shared_coupon_code}</label>
           <input className="input" id="shared_coupon_code" name="shared_coupon_code" maxLength={64} />

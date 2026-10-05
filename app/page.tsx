@@ -189,7 +189,7 @@ export default async function LandingPage() {
         <section id="za-brendove" className="scroll-mt-20 px-4 py-10">
           <div className="mx-auto grid max-w-6xl gap-8 rounded-[2rem] bg-ink px-6 py-12 text-white sm:px-12 lg:grid-cols-2 lg:items-center">
             <div>
-              <p className="text-xs font-bold tracking-widest text-pink-300 uppercase">{l.brandEyebrow}</p>
+              <p className="text-xs font-bold tracking-widest text-sky-300 uppercase">{l.brandEyebrow}</p>
               <h2 className="section-title mt-2">{l.brandTitle}</h2>
               <p className="mt-4 max-w-md text-white/75">{l.brandText}</p>
               <Link href="/registracija?uloga=brand" className="btn-light mt-7 px-8">{l.ctaBrand}</Link>
