@@ -57,7 +57,8 @@ export default async function MyTestsPage() {
                 )}
                 {o.status === "claimed" && ships && <p className="mt-3 text-sm text-stone-700">{t.order.waitingShipment}</p>}
                 {o.status === "purchase_verified" && o.review_due_at && (
-                  <p className="mt-3 text-sm font-medium text-stone-800">{t.order.reviewBy(day(o.review_due_at))}</p>
+                  <p className="mt-3 text-sm font-medium text-stone-800">{t.order.reviewBy(day(o.review_due_at))}
+                <Link href={`/moji-testovi/${o.id}`} className="btn-ghost mt-4">{t.test.open}</Link></p>
                 )}
               </li>
             );

@@ -10,3 +10,7 @@ export function day(iso: string) {
 export function errorCode(message: string | undefined) {
   return message && /^[A-Z_]+$/.test(message) ? message : "GENERIC";
 }
+
+export function reviewPhotoUrl(path: string) {
+  return `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/review-media/${path}`;
+}

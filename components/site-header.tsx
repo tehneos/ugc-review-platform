@@ -15,6 +15,8 @@ export async function SiteHeader() {
       : [
           { href: "/dashboard", label: t.nav.dashboard },
           { href: "/dashboard/kampanje", label: t.nav.campaigns },
+          { href: "/dashboard/narudzbe", label: t.nav.orders },
+          { href: "/dashboard/recenzije", label: t.nav.reviews },
         ];
 
   return (
