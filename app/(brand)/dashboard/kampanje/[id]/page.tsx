@@ -53,6 +53,10 @@ export default async function CampaignDetailPage({ params, searchParams }: PageP
         <p role="status" className="mt-4 rounded-lg bg-teal-50 p-3 text-sm text-teal-900">{d.imported(Number(sp.uvezeno) || 0)}</p>
       )}
 
+      {c.status === "draft" && (
+        <p className="mt-4 rounded-lg bg-amber-50 p-3 text-sm text-amber-900">{d.draftNotice}</p>
+      )}
+
       <section className="card mt-6">
         <h2 className="font-semibold">{d.coupons}</h2>
         {!usesUniqueCoupons ? (
@@ -74,11 +78,11 @@ export default async function CampaignDetailPage({ params, searchParams }: PageP
       <form action={setCampaignStatus} className="mt-6 flex flex-wrap items-center gap-3">
         <input type="hidden" name="campaign_id" value={c.id} />
         {(c.status === "draft" || c.status === "paused") && (
-          <button name="action" value="publish" className="btn">{c.status === "draft" ? d.publish : d.resume}</button>
+          <button name="intent" value="publish" className="btn">{c.status === "draft" ? d.publish : d.resume}</button>
         )}
         {c.status === "active" && (
           <>
-            <button name="action" value="pause" className="btn-ghost">{d.pause}</button>
+            <button name="intent" value="pause" className="btn-ghost">{d.pause}</button>
             <Link href={`/ponude/${c.slug}`} className="text-sm font-medium text-brand">{d.publicLink}</Link>
           </>
         )}

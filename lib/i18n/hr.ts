@@ -150,6 +150,7 @@ export const hr = {
     },
     detail: {
       back: "Sve kampanje",
+      draftNotice: "Kampanja je spremljena kao nacrt. Testeri je ne vide dok ne kliknete Objavi kampanju na dnu stranice.",
       coupons: "Kuponi",
       couponsCount: (free: number, total: number) => `Slobodno ${free} od ${total} uvezenih`,
       couponsNeeded: (n: number) => `Za objavu treba još ${n} kupona.`,

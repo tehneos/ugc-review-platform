@@ -53,7 +53,7 @@ export async function importCoupons(formData: FormData) {
 export async function setCampaignStatus(formData: FormData) {
   await requireBrandMember();
   const id = str(formData, "campaign_id");
-  const fn = formData.get("action") === "pause" ? "pause_campaign" : "publish_campaign";
+  const fn = formData.get("intent") === "pause" ? "pause_campaign" : "publish_campaign";
 
   const supabase = await createClient();
   const { error } = await supabase.rpc(fn, { p_campaign_id: id });
