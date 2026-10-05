@@ -32,7 +32,13 @@ export async function getProfile(): Promise<Profile | null> {
 
 /** Početna stranica korisnika prema ulozi. */
 export function homeFor(role: Profile["role"]) {
-  return role === "tester" ? "/ponude" : "/dashboard";
+  return role === "tester" ? "/ponude" : role === "admin" ? "/admin" : "/dashboard";
+}
+
+export async function requireAdmin(): Promise<Profile> {
+  const profile = await requireUser();
+  if (profile.role !== "admin") redirect(homeFor(profile.role));
+  return profile;
 }
 
 export async function requireUser(): Promise<Profile> {
@@ -43,14 +49,14 @@ export async function requireUser(): Promise<Profile> {
 
 export async function requireTester(): Promise<Profile> {
   const profile = await requireUser();
-  if (profile.role !== "tester") redirect("/dashboard");
+  if (profile.role !== "tester") redirect(homeFor(profile.role));
   return profile;
 }
 
 /** Vraća profil i brend; korisnika bez brenda šalje na onboarding. */
 export async function requireBrandMember(opts: { allowNoBrand?: boolean } = {}) {
   const profile = await requireUser();
-  if (profile.role === "tester") redirect("/ponude");
+  if (profile.role !== "brand") redirect(homeFor(profile.role));
 
   const supabase = await createClient();
   const { data: membership } = await supabase

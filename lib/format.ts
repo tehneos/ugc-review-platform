@@ -14,3 +14,11 @@ export function errorCode(message: string | undefined) {
 export function reviewPhotoUrl(path: string) {
   return `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/review-media/${path}`;
 }
+
+export function hoursSince(iso: string) {
+  return Math.floor((Date.now() - new Date(iso).getTime()) / 3600_000);
+}
+
+export function hoursAgo(hours: number) {
+  return new Date(Date.now() - hours * 3600_000).toISOString();
+}

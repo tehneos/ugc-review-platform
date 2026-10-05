@@ -6,7 +6,9 @@ export async function SiteHeader() {
   const profile = await getProfile();
   const links = !profile
     ? [{ href: "/ponude", label: t.nav.offers }]
-    : profile.role === "tester"
+    : profile.role === "admin"
+      ? [{ href: "/admin", label: t.nav.admin }]
+      : profile.role === "tester"
       ? [
           { href: "/ponude", label: t.nav.offers },
           { href: "/moji-testovi", label: t.nav.myTests },

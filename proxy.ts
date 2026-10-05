@@ -1,7 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-const PROTECTED = ["/moji-testovi", "/profil", "/dashboard"];
+const PROTECTED = ["/moji-testovi", "/profil", "/dashboard", "/admin"];
 
 /** Osvježava Supabase sesiju i neprijavljene korisnike šalje na prijavu. */
 export async function proxy(request: NextRequest) {
