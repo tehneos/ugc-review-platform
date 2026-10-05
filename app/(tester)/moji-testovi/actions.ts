@@ -43,3 +43,11 @@ export async function submitReview(formData: FormData) {
   });
   redirect(`/moji-testovi/${id}${error ? `?greska=${errorCode(error.message)}` : ""}`);
 }
+
+export async function markExternalPosted(formData: FormData) {
+  await requireTester();
+  const id = str(formData, "order_id");
+  const supabase = await createClient();
+  const { error } = await supabase.rpc("mark_external_posted", { p_review_id: str(formData, "review_id") });
+  redirect(`/moji-testovi/${id}${error ? `?greska=${errorCode(error.message)}` : ""}`);
+}

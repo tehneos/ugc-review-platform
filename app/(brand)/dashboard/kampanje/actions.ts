@@ -33,7 +33,24 @@ export async function createCampaign(formData: FormData) {
   });
 
   if (error) redirect(`/dashboard/kampanje/nova?greska=${errorCode(error.message)}`);
+
+  const reviewUrl = str(formData, "external_review_url");
+  if (reviewUrl) {
+    const { error: urlError } = await supabase.rpc("set_campaign_review_url", { p_campaign_id: data, p_url: reviewUrl });
+    if (urlError) redirect(`/dashboard/kampanje/${data}?greska=${errorCode(urlError.message)}`);
+  }
   redirect(`/dashboard/kampanje/${data}`);
+}
+
+export async function setReviewUrl(formData: FormData) {
+  await requireBrandMember();
+  const id = str(formData, "campaign_id");
+  const supabase = await createClient();
+  const { error } = await supabase.rpc("set_campaign_review_url", {
+    p_campaign_id: id,
+    p_url: str(formData, "external_review_url"),
+  });
+  redirect(`/dashboard/kampanje/${id}?${error ? `greska=${errorCode(error.message)}` : "poveznica=1"}`);
 }
 
 export async function importCoupons(formData: FormData) {

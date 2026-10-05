@@ -3,7 +3,7 @@ import { requireBrandMember } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import { day, reviewPhotoUrl } from "@/lib/format";
 import { t } from "@/lib/i18n/hr";
-import { moderateReview } from "./actions";
+import { confirmExternal, moderateReview } from "./actions";
 
 export const metadata = { title: t.moderation.title };
 
@@ -35,7 +35,7 @@ export default async function ModerationPage({ searchParams }: PageProps<"/dashb
   const supabase = await createClient();
   const { data } = await supabase
     .from("reviews")
-    .select("id, status, rating, title, body, display_name, resubmitted, created_at, published_at, campaigns(product_name), review_media(storage_path, position, removed_at)")
+    .select("id, status, rating, title, body, display_name, resubmitted, created_at, published_at, external_posted_at, external_confirmed_at, campaigns(product_name, external_review_url), review_media(storage_path, position, removed_at)")
     .eq("brand_id", brand.id)
     .in("status", ["pending", "approved"])
     .order("created_at", { ascending: false });
@@ -104,6 +104,23 @@ export default async function ModerationPage({ searchParams }: PageProps<"/dashb
                 <p className="mt-1 font-semibold">{r.rating}/5{r.title ? ` · ${r.title}` : ""}</p>
                 <p className="mt-2 text-sm whitespace-pre-line text-stone-700">{r.body}</p>
                 <Photos media={r.review_media} alt={r.campaign?.product_name ?? ""} />
+                {r.campaign?.external_review_url &&
+                  (r.external_confirmed_at ? (
+                    <p className="mt-3 text-sm text-teal-900">{m.extConfirmed}</p>
+                  ) : r.external_posted_at ? (
+                    <form action={confirmExternal} className="mt-3 rounded-lg bg-amber-50 p-3">
+                      <input type="hidden" name="review_id" value={r.id} />
+                      <p className="text-sm text-amber-900">{m.extPosted}</p>
+                      <div className="mt-2 flex flex-wrap items-center gap-3">
+                        <button className="btn">{m.extConfirm}</button>
+                        <a href={r.campaign.external_review_url} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-brand">
+                          {t.offer.productLink} ↗
+                        </a>
+                      </div>
+                    </form>
+                  ) : (
+                    <p className="mt-3 text-sm text-stone-500">{m.extPending}</p>
+                  ))}
               </li>
             ))}
           </ul>

@@ -17,3 +17,10 @@ export async function moderateReview(formData: FormData) {
   });
   redirect(`/dashboard/recenzije${error ? `?greska=${errorCode(error.message)}` : ""}`);
 }
+
+export async function confirmExternal(formData: FormData) {
+  await requireBrandMember();
+  const supabase = await createClient();
+  const { error } = await supabase.rpc("confirm_external_review", { p_review_id: String(formData.get("review_id") ?? "") });
+  redirect(`/dashboard/recenzije${error ? `?greska=${errorCode(error.message)}` : ""}`);
+}

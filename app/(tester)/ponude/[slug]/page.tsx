@@ -15,7 +15,7 @@ export default async function OfferPage({ params, searchParams }: PageProps<"/po
   const { data: c } = await supabase
     .from("campaigns")
     .select(
-      "id, slug, title, description, product_name, product_url, product_image_url, product_price, currency, discount_percent, slots_total, slots_taken, review_deadline_days, min_photos, requirements, fulfillment_mode, purchase_instructions, status, brands(name)",
+      "id, slug, title, description, product_name, product_url, product_image_url, product_price, currency, discount_percent, slots_total, slots_taken, review_deadline_days, min_photos, requirements, fulfillment_mode, purchase_instructions, external_review_url, status, brands(name)",
     )
     .eq("slug", slug)
     .eq("status", "active")
@@ -81,6 +81,7 @@ export default async function OfferPage({ params, searchParams }: PageProps<"/po
           </>
         )}
         <p className="mt-4 text-sm text-stone-600">{o.rules(c.review_deadline_days, c.min_photos)}</p>
+        {c.external_review_url && <p className="mt-2 text-sm text-stone-600">{o.extStep}</p>}
       </section>
 
       {errorKey && (

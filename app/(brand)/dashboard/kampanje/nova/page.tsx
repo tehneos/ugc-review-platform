@@ -90,6 +90,11 @@ export default async function NewCampaignPage({ searchParams }: PageProps<"/dash
           <label className="label" htmlFor="requirements">{f.requirements}</label>
           <textarea className="input py-2" id="requirements" name="requirements" rows={2} maxLength={1000} />
         </div>
+        <div>
+          <label className="label" htmlFor="external_review_url">{f.external_review_url}</label>
+          <input className="input" id="external_review_url" name="external_review_url" type="url" placeholder="https://" aria-describedby="ext-hint" />
+          <p id="ext-hint" className="mt-1 text-xs text-stone-500">{f.externalHint}</p>
+        </div>
         <button className="btn">{f.submit}</button>
       </form>
     </div>

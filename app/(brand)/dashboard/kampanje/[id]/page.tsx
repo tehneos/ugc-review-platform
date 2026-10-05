@@ -4,7 +4,7 @@ import { requireBrandMember } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import { money } from "@/lib/format";
 import { t } from "@/lib/i18n/hr";
-import { importCoupons, setCampaignStatus } from "../actions";
+import { importCoupons, setCampaignStatus, setReviewUrl } from "../actions";
 
 export default async function CampaignDetailPage({ params, searchParams }: PageProps<"/dashboard/kampanje/[id]">) {
   const { brand } = await requireBrandMember();
@@ -16,7 +16,7 @@ export default async function CampaignDetailPage({ params, searchParams }: PageP
   const supabase = await createClient();
   const { data: c } = await supabase
     .from("campaigns")
-    .select("id, slug, title, product_name, product_price, currency, discount_percent, status, slots_total, slots_taken, fulfillment_mode, coupon_mode")
+    .select("id, slug, title, product_name, product_price, currency, discount_percent, status, slots_total, slots_taken, fulfillment_mode, coupon_mode, external_review_url")
     .eq("id", id)
     .eq("brand_id", brand.id)
     .maybeSingle();
@@ -73,6 +73,18 @@ export default async function CampaignDetailPage({ params, searchParams }: PageP
             </form>
           </>
         )}
+      </section>
+
+      <section className="card mt-6">
+        <h2 className="font-semibold">{d.externalTitle}</h2>
+        {sp.poveznica && <p role="status" className="mt-2 text-sm text-teal-900">{d.externalSaved}</p>}
+        <form action={setReviewUrl} className="mt-3 space-y-3">
+          <input type="hidden" name="campaign_id" value={c.id} />
+          <label className="label" htmlFor="external_review_url">{t.campaigns.form.external_review_url}</label>
+          <input className="input" id="external_review_url" name="external_review_url" type="url" placeholder="https://" defaultValue={c.external_review_url ?? ""} aria-describedby="ext-hint" />
+          <p id="ext-hint" className="text-xs text-stone-500">{t.campaigns.form.externalHint}</p>
+          <button className="btn-ghost">{d.externalSave}</button>
+        </form>
       </section>
 
       <form action={setCampaignStatus} className="mt-6 flex flex-wrap items-center gap-3">

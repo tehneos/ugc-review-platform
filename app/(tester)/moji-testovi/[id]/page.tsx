@@ -5,7 +5,8 @@ import { requireTester } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import { day } from "@/lib/format";
 import { t } from "@/lib/i18n/hr";
-import { confirmReceived, submitProof, submitReview } from "../actions";
+import { CopyButton } from "@/components/copy-button";
+import { confirmReceived, markExternalPosted, submitProof, submitReview } from "../actions";
 
 export default async function TestPage({ params, searchParams }: PageProps<"/moji-testovi/[id]">) {
   const profile = await requireTester();
@@ -17,7 +18,7 @@ export default async function TestPage({ params, searchParams }: PageProps<"/moj
   const { data: o } = await supabase
     .from("orders")
     .select(
-      "id, status, coupon_code, external_order_number, rejection_note, tracking_number, shipped_at, purchase_due_at, review_due_at, campaigns(product_name, product_url, fulfillment_mode, min_photos, purchase_instructions, brands(name))",
+      "id, status, coupon_code, external_order_number, rejection_note, tracking_number, shipped_at, purchase_due_at, review_due_at, campaigns(product_name, product_url, fulfillment_mode, min_photos, purchase_instructions, external_review_url, brands(name))",
     )
     .eq("id", id)
     .eq("tester_id", profile.id)
@@ -29,7 +30,7 @@ export default async function TestPage({ params, searchParams }: PageProps<"/moj
   const ships = c?.fulfillment_mode === "brand_ships";
   const { data: review } = await supabase
     .from("reviews")
-    .select("status, rating, title, body, rejection_reason, rejection_note, resubmitted")
+    .select("id, status, rating, title, body, rejection_reason, rejection_note, resubmitted, external_posted_at, external_confirmed_at")
     .eq("order_id", o.id)
     .maybeSingle();
   const errorKey = typeof sp.greska === "string" ? sp.greska : null;
@@ -158,6 +159,35 @@ export default async function TestPage({ params, searchParams }: PageProps<"/moj
 
       {o.status === "review_submitted" && <p className="card mt-6 text-sm text-stone-700">{x.reviewPending}</p>}
       {o.status === "completed" && <p className="card mt-6 text-sm text-teal-900">{x.completed}</p>}
+
+      {o.status === "completed" && review?.status === "approved" && c?.external_review_url && (
+        <section className="card mt-6">
+          <h2 className="font-semibold">{x.extTitle}</h2>
+          {review.external_confirmed_at ? (
+            <p className="mt-2 text-sm text-teal-900">{x.extConfirmed}</p>
+          ) : review.external_posted_at ? (
+            <p className="mt-2 text-sm text-stone-700">{x.extWaiting}</p>
+          ) : (
+            <>
+              <p className="mt-2 text-sm text-stone-700">{x.extIntro}</p>
+              <p className="mt-3 rounded-lg bg-stone-50 p-3 text-sm whitespace-pre-line text-stone-800 select-all">
+                {`${review.body}\n\n${x.extDisclosure}`}
+              </p>
+              <div className="mt-3 flex flex-wrap gap-3">
+                <CopyButton text={`${review.body}\n\n${x.extDisclosure}`} label={x.extCopy} copiedLabel={x.extCopied} />
+                <a href={c.external_review_url} target="_blank" rel="noopener noreferrer nofollow" className="btn-ghost">
+                  {x.extOpen} ↗
+                </a>
+              </div>
+              <form action={markExternalPosted} className="mt-4 border-t border-stone-200 pt-4">
+                <input type="hidden" name="order_id" value={o.id} />
+                <input type="hidden" name="review_id" value={review.id} />
+                <button className="btn">{x.extDone}</button>
+              </form>
+            </>
+          )}
+        </section>
+      )}
       {o.status === "expired" && <p className="card mt-6 text-sm text-stone-700">{x.expired}</p>}
       {o.status === "rejected" && (
         <p className="card mt-6 text-sm text-stone-700">
