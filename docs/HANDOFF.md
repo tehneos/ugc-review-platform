@@ -7,9 +7,9 @@ Dvosmjerna platforma za HR/SEE tržište: brendovi objavljuju testne kampanje (p
 
 ## Gdje što živi
 - Kod: GitHub `tehneos/ugc-review-platform`, grana `main`; svaki push se automatski objavljuje.
-- Aplikacija: https://ugc-review-platform.vercel.app (Vercel projekt `ugc-review-platform`, funkcije u `fra1`).
+- Aplikacija: https://probaj.vercel.app (stara adresa ugc-review-platform.vercel.app i dalje radi; Vercel projekt `ugc-review-platform`, funkcije u `fra1`).
 - Baza: Supabase projekt `ugc-review-platform` (ref `xeeijpdxyoadrxrnhblw`, Frankfurt, besplatni plan).
-- Naziv u sučelju "Tester Platforma" je privremen (`lib/i18n/hr.ts`, `appName`).
+- Naziv u sučelju je "Probaj" (`lib/i18n/hr.ts`, `appName`).
 
 ## Arhitektonska pravila (drži ih se)
 1. **Sva poslovna pravila su u bazi**, u `security definer` funkcijama (`supabase/migrations`). Next.js server actioni samo prosljeđuju unos i prikazuju kod greške (npr. `INVALID_STATUS`).
