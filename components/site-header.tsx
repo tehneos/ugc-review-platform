@@ -29,7 +29,9 @@ export async function SiteHeader() {
   return (
     <header className="sticky top-0 z-20 border-b border-stone-200/80 bg-white/90 backdrop-blur">
       <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-8 gap-y-1 px-4 py-3">
-        <Link href="/" className="text-xl font-extrabold tracking-tight text-brand">
+        <Link href="/" className="flex items-center gap-2 text-xl font-extrabold tracking-tight text-brand">
+          {/* eslint-disable-next-line @next/next/no-img-element -- mali SVG znak, bez optimizacije */}
+          <img src="/icon.svg" alt="" width={30} height={30} />
           {t.appName}
         </Link>
         <nav className="order-3 flex w-full flex-wrap items-center gap-x-6 text-sm font-semibold text-ink/75 sm:order-none sm:w-auto sm:flex-1">
