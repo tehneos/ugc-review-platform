@@ -1,4 +1,3 @@
-import { SiteHeader } from "@/components/site-header";
 import { requireAdmin } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import { day, hoursAgo, hoursSince } from "@/lib/format";
@@ -57,10 +56,7 @@ export default async function AdminPage({ searchParams }: PageProps<"/admin">) {
 
   return (
     <>
-      <SiteHeader />
-      <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">
-        <h1 className="text-2xl font-bold">{a.title}</h1>
-        {sp.greska && <p role="alert" className="mt-4 rounded-lg bg-red-50 p-3 text-sm text-red-800">{t.auth.errors.generic}</p>}
+        {sp.greska && <p role="alert" className="rounded-lg bg-red-50 p-3 text-sm text-red-800">{t.auth.errors.generic}</p>}
 
         <dl className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
           {stats.map(([label, value]) => (
@@ -131,7 +127,6 @@ export default async function AdminPage({ searchParams }: PageProps<"/admin">) {
             </ul>
           )}
         </section>
-      </main>
     </>
   );
 }
