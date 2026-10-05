@@ -27,6 +27,9 @@ Dvosmjerna platforma za HR/SEE tržište: brendovi objavljuju testne kampanje (p
 - Bodovi: +5 pri odobrenju; uz poveznicu za recenziju na webshopu brenda +2 pri odobrenju i +3 kad brend potvrdi kopiju.
 - Cron svaki sat: `run_hourly_maintenance()`.
 
+- Brend uređuje vlastitu kampanju (`update_campaign`): nakon prve prijave testera zaključani su proizvod, cijena, popust, broj fotografija i način; broj mjesta se može samo povećati. `close_campaign` briše kampanju bez testera (`deleted_at`), a onu s testerima zatvara za nove prijave (`completed`).
+- Admin (`/admin`): blokada korisnika, korekcija pouzdanosti, ispravak i otkazivanje kampanja, skrivanje recenzija (`flagged`). Ništa se fizički ne briše.
+
 ## Što je testirano
 - Funkcije u bazi: testirane SQL skriptama u transakciji s poništavanjem (sretni put i odbijanja).
 - Sučelje: ručno ga je prošao vlasnik (registracija, kampanja, zauzimanje mjesta, dostava). Automatskih testova nema.

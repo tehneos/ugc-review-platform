@@ -78,3 +78,44 @@ export async function setCampaignStatus(formData: FormData) {
   revalidatePath("/ponude");
   redirect(`/dashboard/kampanje/${id}${fn === "publish_campaign" ? "?objavljeno=1" : ""}`);
 }
+
+export async function updateCampaign(formData: FormData) {
+  await requireBrandMember();
+  const id = str(formData, "campaign_id");
+  // Polje koje forma nije poslala (zaključano) ide kao null: baza ga ostavlja kakvo jest.
+  const text = (key: string) => (formData.has(key) ? str(formData, key) : null);
+  const num = (key: string) => (formData.has(key) && str(formData, key) !== "" ? Number(str(formData, key).replace(",", ".")) : null);
+  const pick = <T extends string>(key: string, allowed: readonly T[]) =>
+    allowed.includes(formData.get(key) as T) ? (formData.get(key) as T) : null;
+
+  const supabase = await createClient();
+  const { error } = await supabase.rpc("update_campaign", {
+    p_campaign_id: id,
+    p_title: text("title"),
+    p_description: text("description"),
+    p_product_url: text("product_url"),
+    p_product_image_url: text("product_image_url"),
+    p_purchase_instructions: text("purchase_instructions"),
+    p_requirements: text("requirements"),
+    p_slots_total: num("slots_total"),
+    p_product_name: text("product_name"),
+    p_product_price: num("product_price"),
+    p_discount_percent: num("discount_percent"),
+    p_min_photos: num("min_photos"),
+    p_fulfillment_mode: pick("fulfillment_mode", ["coupon_purchase", "brand_ships"] as const),
+    p_coupon_mode: pick("coupon_mode", ["unique", "shared"] as const),
+    p_shared_coupon_code: text("shared_coupon_code"),
+  });
+  if (!error) revalidatePath("/ponude");
+  redirect(`/dashboard/kampanje/${id}?${error ? `greska=${errorCode(error.message)}` : "uredeno=1"}`);
+}
+
+export async function closeCampaign(formData: FormData) {
+  await requireBrandMember();
+  const id = str(formData, "campaign_id");
+  const supabase = await createClient();
+  const { data, error } = await supabase.rpc("close_campaign", { p_campaign_id: id });
+  if (error) redirect(`/dashboard/kampanje/${id}?greska=${errorCode(error.message)}`);
+  revalidatePath("/ponude");
+  redirect(data === "deleted" ? "/dashboard/kampanje?obrisano=1" : `/dashboard/kampanje/${id}?zatvoreno=1`);
+}

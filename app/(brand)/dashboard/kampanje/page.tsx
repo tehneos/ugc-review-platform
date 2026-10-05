@@ -6,7 +6,8 @@ import { t } from "@/lib/i18n/hr";
 
 export const metadata = { title: t.campaigns.title };
 
-export default async function CampaignsPage() {
+export default async function CampaignsPage({ searchParams }: PageProps<"/dashboard/kampanje">) {
+  const sp = await searchParams;
   const { brand } = await requireBrandMember();
   if (!brand) redirect("/dashboard/onboarding");
 
@@ -15,6 +16,7 @@ export default async function CampaignsPage() {
     .from("campaigns")
     .select("id, title, product_name, status, slots_total, slots_taken, discount_percent")
     .eq("brand_id", brand.id)
+    .is("deleted_at", null)
     .order("created_at", { ascending: false });
 
   return (
@@ -23,6 +25,7 @@ export default async function CampaignsPage() {
         <h1 className="text-2xl font-bold">{t.campaigns.title}</h1>
         <Link href="/dashboard/kampanje/nova" className="btn">{t.campaigns.new}</Link>
       </div>
+      {sp.obrisano && <p role="status" className="mt-4 rounded-lg bg-teal-50 p-3 text-sm text-teal-900">{t.campaigns.detail.deleted}</p>}
       {!campaigns?.length ? (
         <p className="card mt-6 text-stone-600">{t.campaigns.empty}</p>
       ) : (
