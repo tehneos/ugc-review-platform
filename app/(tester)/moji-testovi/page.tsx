@@ -52,7 +52,7 @@ export default async function MyTestsPage() {
                     )}
                     <p className="mt-2">{t.order.buyBy(day(o.purchase_due_at))}</p>
                     {c?.product_url && (
-                      <a href={c.product_url} target="_blank" rel="noopener noreferrer nofollow" className="mt-2 inline-block font-medium text-brand">
+                      <a href={c.product_url} target="_blank" rel="noopener noreferrer nofollow" className="mt-2 inline-block font-medium text-accent">
                         {t.offer.productLink} ↗
                       </a>
                     )}

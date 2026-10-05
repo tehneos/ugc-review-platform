@@ -37,7 +37,7 @@ export default async function TestPage({ params, searchParams }: PageProps<"/moj
 
   return (
     <div className="max-w-xl">
-      <Link href="/moji-testovi" className="text-sm font-medium text-brand">← {x.back}</Link>
+      <Link href="/moji-testovi" className="text-sm font-medium text-accent">← {x.back}</Link>
       <p className="mt-3 text-sm font-medium text-stone-500">{brand?.name}</p>
       <h1 className="text-2xl font-bold">{c?.product_name}</h1>
       <p className="mt-2 inline-block rounded-full bg-stone-100 px-3 py-1 text-xs font-medium text-stone-700">
@@ -60,7 +60,7 @@ export default async function TestPage({ params, searchParams }: PageProps<"/moj
           <p className="text-sm font-medium">{t.order.buyBy(day(o.purchase_due_at))}</p>
           {c?.purchase_instructions && <p className="text-sm whitespace-pre-line text-stone-700">{c.purchase_instructions}</p>}
           {c?.product_url && (
-            <a href={c.product_url} target="_blank" rel="noopener noreferrer nofollow" className="inline-block text-sm font-medium text-brand">
+            <a href={c.product_url} target="_blank" rel="noopener noreferrer nofollow" className="inline-block text-sm font-medium text-accent">
               {t.offer.productLink} ↗
             </a>
           )}
@@ -125,7 +125,7 @@ export default async function TestPage({ params, searchParams }: PageProps<"/moj
               <legend className="label">{x.rating}</legend>
               <div className="flex gap-2">
                 {[1, 2, 3, 4, 5].map((n) => (
-                  <label key={n} className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-lg border border-stone-300 bg-white font-semibold has-checked:border-brand has-checked:bg-brand has-checked:text-white">
+                  <label key={n} className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-lg border border-stone-300 bg-white font-semibold has-checked:border-ink has-checked:bg-brand has-checked:text-ink">
                     <input type="radio" name="rating" value={n} required defaultChecked={review?.rating === n} className="sr-only" />
                     {n}
                   </label>

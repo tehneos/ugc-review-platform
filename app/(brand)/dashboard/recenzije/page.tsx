@@ -113,7 +113,7 @@ export default async function ModerationPage({ searchParams }: PageProps<"/dashb
                       <p className="text-sm text-amber-900">{m.extPosted}</p>
                       <div className="mt-2 flex flex-wrap items-center gap-3">
                         <button className="btn">{m.extConfirm}</button>
-                        <a href={r.campaign.external_review_url} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-brand">
+                        <a href={r.campaign.external_review_url} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-accent">
                           {t.offer.productLink} ↗
                         </a>
                       </div>

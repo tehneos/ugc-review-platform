@@ -43,7 +43,7 @@ export default async function OfferPage({ params, searchParams }: PageProps<"/po
 
   return (
     <div className="max-w-2xl">
-      <Link href="/ponude" className="text-sm font-medium text-brand">← {o.back}</Link>
+      <Link href="/ponude" className="text-sm font-medium text-accent">← {o.back}</Link>
       <p className="mt-3 text-sm font-medium text-stone-500">{brand?.name}</p>
       <h1 className="text-2xl font-bold">{c.product_name}</h1>
 
@@ -59,14 +59,14 @@ export default async function OfferPage({ params, searchParams }: PageProps<"/po
         </div>
         <div className="card p-4">
           <dt className="text-xs text-stone-500">{o.yourPrice}</dt>
-          <dd className="mt-1 text-lg font-bold text-brand">
+          <dd className="mt-1 text-lg font-bold text-accent">
             {c.discount_percent === 100 ? t.offers.free : money(price * (1 - c.discount_percent / 100), c.currency)}
           </dd>
         </div>
       </dl>
 
       {c.description && <p className="mt-5 whitespace-pre-line text-stone-700">{c.description}</p>}
-      <a href={c.product_url} target="_blank" rel="noopener noreferrer nofollow" className="mt-3 inline-block text-sm font-medium text-brand">
+      <a href={c.product_url} target="_blank" rel="noopener noreferrer nofollow" className="mt-3 inline-block text-sm font-medium text-accent">
         {o.productLink} ↗
       </a>
 

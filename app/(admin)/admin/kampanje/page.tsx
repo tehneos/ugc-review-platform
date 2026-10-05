@@ -45,7 +45,7 @@ export default async function AdminCampaignsPage({ searchParams }: PageProps<"/a
               )}
 
               <details className="mt-3 border-t border-stone-200 pt-3">
-                <summary className="cursor-pointer py-2 text-sm font-semibold text-brand">{a.edit}</summary>
+                <summary className="cursor-pointer py-2 text-sm font-semibold text-accent">{a.edit}</summary>
                 <form action={updateCampaign} className="mt-2 space-y-3">
                   <input type="hidden" name="campaign_id" value={c.id} />
                   <div>

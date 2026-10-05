@@ -32,7 +32,7 @@ export default async function LoginPage({ searchParams }: PageProps<"/prijava">)
       </form>
       <p className="mt-5 text-sm text-stone-600">
         {t.auth.noAccount}{" "}
-        <Link href="/registracija" className="font-semibold text-brand">{t.nav.register}</Link>
+        <Link href="/registracija" className="font-semibold text-accent">{t.nav.register}</Link>
       </p>
     </div>
   );

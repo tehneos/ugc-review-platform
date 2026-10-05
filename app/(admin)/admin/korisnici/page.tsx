@@ -40,7 +40,7 @@ export default async function AdminUsersPage({ searchParams }: PageProps<"/admin
             )}
             {p.role !== "admin" && (
               <details className="mt-3 border-t border-stone-200 pt-3">
-                <summary className="cursor-pointer py-2 text-sm font-semibold text-brand">{u.setStatus}</summary>
+                <summary className="cursor-pointer py-2 text-sm font-semibold text-accent">{u.setStatus}</summary>
                 <form action={setUserStatus} className="mt-2 grid gap-3 sm:grid-cols-3">
                   <input type="hidden" name="user_id" value={p.id} />
                   <div>

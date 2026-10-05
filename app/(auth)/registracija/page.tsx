@@ -33,7 +33,7 @@ export default async function RegisterPage({ searchParams }: PageProps<"/registr
           <legend className="label">{t.auth.roleLabel}</legend>
           <div className="grid grid-cols-2 gap-2">
             {(["tester", "brand"] as const).map((r) => (
-              <label key={r} className="flex min-h-11 cursor-pointer items-center gap-2 rounded-lg border border-stone-300 bg-white px-3 text-sm has-checked:border-brand has-checked:bg-teal-50">
+              <label key={r} className="flex min-h-11 cursor-pointer items-center gap-2 rounded-lg border border-stone-300 bg-white px-3 text-sm has-checked:border-ink has-checked:bg-teal-50">
                 <input type="radio" name="role" value={r} defaultChecked={role === r} />
                 {r === "tester" ? t.auth.roleTester : t.auth.roleBrand}
               </label>
@@ -60,7 +60,7 @@ export default async function RegisterPage({ searchParams }: PageProps<"/registr
       </form>
       <p className="mt-5 text-sm text-stone-600">
         {t.auth.hasAccount}{" "}
-        <Link href="/prijava" className="font-semibold text-brand">{t.nav.login}</Link>
+        <Link href="/prijava" className="font-semibold text-accent">{t.nav.login}</Link>
       </p>
     </div>
   );

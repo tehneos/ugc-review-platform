@@ -20,11 +20,11 @@ function HeroArt() {
         <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-gradient-to-br from-brand/20 to-tint-2">
           {/* eslint-disable-next-line @next/next/no-img-element -- ukrasna fotografija s Unsplasha */}
           <img src={main} alt="" className="h-full w-full object-cover" />
-          <span className="absolute top-2 left-2 rounded-full bg-brand px-2.5 py-0.5 text-[11px] font-bold text-white">−70 %</span>
+          <span className="absolute top-2 left-2 rounded-full bg-brand px-2.5 py-0.5 text-[11px] font-bold text-ink">−70 %</span>
         </div>
         <div className="mt-3 h-2.5 w-3/4 rounded-full bg-ink/15" />
         <div className="mt-2 h-2.5 w-1/2 rounded-full bg-ink/10" />
-        <div className="mt-3 rounded-full bg-brand py-1.5 text-center text-[11px] font-bold text-white">{h.claim}</div>
+        <div className="mt-3 rounded-full bg-brand py-1.5 text-center text-[11px] font-bold text-ink">{h.claim}</div>
       </div>
       <div className="absolute right-4 bottom-8 w-52 rotate-[4deg] rounded-2xl border border-stone-200 bg-white p-4 shadow-xl sm:w-60">
         <p className="text-lg tracking-wide text-amber-500">★★★★★</p>
@@ -81,7 +81,7 @@ export default async function LandingPage() {
                 <p className="eyebrow">{l.offersEyebrow}</p>
                 <h2 className="section-title mt-2">{l.offersTitle}</h2>
               </div>
-              <Link href="/ponude" className="inline-flex min-h-11 items-center text-sm font-bold text-brand hover:underline">{l.allOffers} →</Link>
+              <Link href="/ponude" className="inline-flex min-h-11 items-center text-sm font-bold text-accent hover:underline">{l.allOffers} →</Link>
             </div>
             <ul className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {(offers as Offer[]).map((o) => (
@@ -102,7 +102,7 @@ export default async function LandingPage() {
                   <div className="relative aspect-[4/3] bg-gradient-to-br from-tint to-tint-2">
                     {/* eslint-disable-next-line @next/next/no-img-element -- ilustrativna fotografija s Unsplasha */}
                     <img src={o.image} alt={`${l.exampleImageAlt}: ${o.name}`} loading="lazy" className="h-full w-full object-cover" />
-                    <span className="absolute top-3 left-3 rounded-full bg-brand px-3 py-1 text-xs font-bold text-white">
+                    <span className="absolute top-3 left-3 rounded-full bg-brand px-3 py-1 text-xs font-bold text-ink">
                       {o.discount === 100 ? t.offers.free : `−${o.discount} %`}
                     </span>
                   </div>
@@ -128,7 +128,7 @@ export default async function LandingPage() {
             <ol className="mt-8 grid gap-5 sm:grid-cols-3">
               {l.steps.map((s, i) => (
                 <li key={s.title} className="card">
-                  <span className="flex h-11 w-11 items-center justify-center rounded-full bg-brand text-lg font-extrabold text-white">{i + 1}</span>
+                  <span className="flex h-11 w-11 items-center justify-center rounded-full bg-brand text-lg font-extrabold text-ink">{i + 1}</span>
                   <h3 className="mt-4 text-lg font-bold">{s.title}</h3>
                   <p className="mt-1.5 text-sm text-ink/70">{s.text}</p>
                 </li>
@@ -191,18 +191,18 @@ export default async function LandingPage() {
         )}
 
         <section id="za-brendove" className="scroll-mt-20 px-4 py-10">
-          <div className="mx-auto grid max-w-6xl gap-8 rounded-[2rem] bg-ink px-6 py-12 text-white sm:px-12 lg:grid-cols-2 lg:items-center">
+          <div className="mx-auto grid max-w-6xl gap-8 rounded-[2rem] bg-brand px-6 py-12 text-ink sm:px-12 lg:grid-cols-2 lg:items-center">
             <div>
-              <p className="text-xs font-bold tracking-widest text-red-300 uppercase">{l.brandEyebrow}</p>
+              <p className="text-xs font-bold tracking-widest text-ink/65 uppercase">{l.brandEyebrow}</p>
               <h2 className="section-title mt-2">{l.brandTitle}</h2>
-              <p className="mt-4 max-w-md text-white/75">{l.brandText}</p>
-              <Link href="/registracija?uloga=brand" className="btn-light mt-7 px-8">{l.ctaBrand}</Link>
+              <p className="mt-4 max-w-md text-ink/80">{l.brandText}</p>
+              <Link href="/registracija?uloga=brand" className="btn mt-7 bg-ink px-8 text-white hover:bg-ink/85">{l.ctaBrand}</Link>
             </div>
             <ul className="space-y-4">
               {l.brandPoints.map((p) => (
-                <li key={p.title} className="rounded-2xl bg-white/8 p-5 ring-1 ring-white/10">
+                <li key={p.title} className="rounded-2xl bg-white/75 p-5 ring-1 ring-ink/5">
                   <h3 className="font-bold">{p.title}</h3>
-                  <p className="mt-1 text-sm text-white/70">{p.text}</p>
+                  <p className="mt-1 text-sm text-ink/70">{p.text}</p>
                 </li>
               ))}
             </ul>

@@ -35,17 +35,17 @@ export function OfferCard({ offer: c }: { offer: Offer }) {
           // eslint-disable-next-line @next/next/no-img-element -- slika je s domene brenda, nepoznate unaprijed
           <img src={c.product_image_url} alt="" loading="lazy" className="h-full w-full object-cover" />
         ) : (
-          <span aria-hidden className="flex h-full items-center justify-center text-6xl font-extrabold text-brand/25">
+          <span aria-hidden className="flex h-full items-center justify-center text-6xl font-extrabold text-accent/25">
             {c.product_name.charAt(0).toUpperCase()}
           </span>
         )}
-        <span className="absolute top-3 left-3 rounded-full bg-brand px-3 py-1 text-xs font-bold text-white">
+        <span className="absolute top-3 left-3 rounded-full bg-brand px-3 py-1 text-xs font-bold text-ink">
           {free ? t.offers.free : `−${c.discount_percent} %`}
         </span>
       </div>
       <div className="flex flex-1 flex-col p-4">
         <p className="text-xs font-semibold text-ink/55">{brand?.name}</p>
-        <h3 className="mt-0.5 font-bold group-hover:text-brand">{c.product_name}</h3>
+        <h3 className="mt-0.5 font-bold group-hover:text-accent">{c.product_name}</h3>
         <p className="mt-2 flex items-baseline gap-2">
           <span className="text-lg font-extrabold">{free ? t.offers.free : money(price * (1 - c.discount_percent / 100), c.currency)}</span>
           <span className="text-sm text-ink/45 line-through">{money(price, c.currency)}</span>

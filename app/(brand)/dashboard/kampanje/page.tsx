@@ -32,7 +32,7 @@ export default async function CampaignsPage({ searchParams }: PageProps<"/dashbo
         <ul className="mt-6 space-y-3">
           {campaigns.map((c) => (
             <li key={c.id}>
-              <Link href={`/dashboard/kampanje/${c.id}`} className="card flex flex-wrap items-center justify-between gap-2 hover:border-brand">
+              <Link href={`/dashboard/kampanje/${c.id}`} className="card flex flex-wrap items-center justify-between gap-2 hover:border-ink">
                 <span>
                   <span className="font-semibold">{c.title}</span>
                   <span className="block text-sm text-stone-600">{c.product_name} · −{c.discount_percent} %</span>

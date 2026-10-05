@@ -41,7 +41,7 @@ export default async function CampaignDetailPage({ params, searchParams }: PageP
 
   return (
     <div className="max-w-2xl">
-      <Link href="/dashboard/kampanje" className="text-sm font-medium text-brand">← {d.back}</Link>
+      <Link href="/dashboard/kampanje" className="text-sm font-medium text-accent">← {d.back}</Link>
       <h1 className="mt-2 text-2xl font-bold">{c.title}</h1>
       <p className="mt-1 text-sm text-stone-600">
         {c.product_name} · {money(Number(c.product_price), c.currency)} · −{c.discount_percent} % ·{" "}
@@ -103,7 +103,7 @@ export default async function CampaignDetailPage({ params, searchParams }: PageP
         {c.status === "active" && (
           <>
             <button name="intent" value="pause" className="btn-ghost">{d.pause}</button>
-            <Link href={`/ponude/${c.slug}`} className="text-sm font-medium text-brand">{d.publicLink}</Link>
+            <Link href={`/ponude/${c.slug}`} className="text-sm font-medium text-accent">{d.publicLink}</Link>
           </>
         )}
       </form>

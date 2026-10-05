@@ -62,7 +62,7 @@ export default async function BrandOrdersPage({ searchParams }: PageProps<"/dash
                   {b.orderNumber}: <span className="font-mono">{o.external_order_number ?? b.noNumber}</span>
                 </p>
                 {proofUrls.has(o.id) && (
-                  <a href={proofUrls.get(o.id)} target="_blank" rel="noopener noreferrer" className="mt-1 inline-block text-sm font-medium text-brand">
+                  <a href={proofUrls.get(o.id)} target="_blank" rel="noopener noreferrer" className="mt-1 inline-block text-sm font-medium text-accent">
                     {b.proof} ↗
                   </a>
                 )}

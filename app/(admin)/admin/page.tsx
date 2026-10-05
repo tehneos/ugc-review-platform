@@ -76,7 +76,7 @@ export default async function AdminPage({ searchParams }: PageProps<"/admin">) {
                   <p className="font-semibold">{o.product} <span className="font-normal text-stone-500">· {o.brand} · {a.waiting(hoursSince(o.updated_at))}</span></p>
                   <p className="mt-1 text-sm text-stone-700">{t.brandOrders.orderNumber}: <span className="font-mono">{o.external_order_number ?? t.brandOrders.noNumber}</span></p>
                   {proofUrls.has(o.id) && (
-                    <a href={proofUrls.get(o.id)} target="_blank" rel="noopener noreferrer" className="mt-1 inline-block text-sm font-medium text-brand">{a.proof} ↗</a>
+                    <a href={proofUrls.get(o.id)} target="_blank" rel="noopener noreferrer" className="mt-1 inline-block text-sm font-medium text-accent">{a.proof} ↗</a>
                   )}
                   <form action={resolveOrder} className="mt-3 flex flex-wrap gap-3">
                     <input type="hidden" name="order_id" value={o.id} />
