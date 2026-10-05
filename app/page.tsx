@@ -3,7 +3,7 @@ import { OFFER_COLUMNS, OfferCard, type Offer } from "@/components/offer-card";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { Stars } from "@/components/stars";
-import { reviewPhotoUrl } from "@/lib/format";
+import { money, reviewPhotoUrl } from "@/lib/format";
 import { createClient } from "@/lib/supabase/server";
 import { t } from "@/lib/i18n/hr";
 
@@ -86,6 +86,35 @@ export default async function LandingPage() {
           </section>
         )}
 
+        {!offers?.length && (
+          <section className="mx-auto max-w-6xl px-4 py-10">
+            <p className="eyebrow">{l.soon}</p>
+            <h2 className="section-title mt-2">{l.exampleOffersTitle}</h2>
+            <p className="mt-2 max-w-2xl text-sm text-ink/65">{l.exampleOffersNote}</p>
+            <ul className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {l.exampleOffers.map((o) => (
+                <li key={o.name} className="relative overflow-hidden rounded-2xl border border-dashed border-ink/25 bg-white">
+                  <div aria-hidden className="relative flex aspect-[4/3] items-center justify-center bg-gradient-to-br from-tint to-tint-2 text-6xl font-extrabold text-brand/25">
+                    {o.name.charAt(0)}
+                    <span className="absolute top-3 left-3 rounded-full bg-brand px-3 py-1 text-xs font-bold text-white">
+                      {o.discount === 100 ? t.offers.free : `−${o.discount} %`}
+                    </span>
+                  </div>
+                  <span className="absolute top-3 right-3 rounded-full bg-ink px-3 py-1 text-xs font-bold text-white">{l.example}</span>
+                  <div className="p-4">
+                    <p className="text-xs font-semibold text-ink/55">{o.brand}</p>
+                    <h3 className="mt-0.5 font-bold">{o.name}</h3>
+                    <p className="mt-2 flex items-baseline gap-2">
+                      <span className="text-lg font-extrabold">{o.discount === 100 ? t.offers.free : money(o.price * (1 - o.discount / 100), "EUR")}</span>
+                      <span className="text-sm text-ink/45 line-through">{money(o.price, "EUR")}</span>
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
         <section id="kako-radi" className="scroll-mt-20 bg-tint-2/60">
           <div className="mx-auto max-w-6xl px-4 py-14">
             <p className="eyebrow">{l.howEyebrow}</p>
@@ -130,6 +159,29 @@ export default async function LandingPage() {
                   </li>
                 );
               })}
+            </ul>
+          </section>
+        )}
+
+        {!reviews?.length && (
+          <section className="mx-auto max-w-6xl px-4 py-14">
+            <p className="eyebrow">{l.reviewsEyebrow}</p>
+            <h2 className="section-title mt-2">{l.exampleReviewsTitle}</h2>
+            <p className="mt-2 max-w-2xl text-sm text-ink/65">{l.exampleReviewsNote}</p>
+            <ul className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {l.exampleReviews.map((r) => (
+                <li key={r.title} className="relative flex flex-col rounded-2xl border border-dashed border-ink/25 bg-white p-5">
+                  <span className="absolute top-4 right-4 rounded-full bg-ink px-3 py-1 text-xs font-bold text-white">{l.example}</span>
+                  <p className="text-xs font-semibold text-ink/55">{r.product}</p>
+                  <p className="mt-1 text-lg"><Stars rating={r.rating} /></p>
+                  <h3 className="mt-1 font-bold">{r.title}</h3>
+                  <p className="mt-2 text-sm text-ink/80">{r.body}</p>
+                  <div aria-hidden className="mt-3 flex gap-2">
+                    <div className="h-20 w-20 rounded-xl bg-gradient-to-br from-tint-2 to-brand/25" />
+                    <div className="h-20 w-20 rounded-xl bg-gradient-to-br from-brand/20 to-tint" />
+                  </div>
+                </li>
+              ))}
             </ul>
           </section>
         )}

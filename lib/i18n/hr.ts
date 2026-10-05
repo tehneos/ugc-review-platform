@@ -41,6 +41,22 @@ export const hr = {
     reviewsTitle: "Što kažu testeri",
     photoBy: "Fotografija testera",
     incentivized: "Proizvod dobiven uz popust ili besplatno, u zamjenu za iskrenu recenziju.",
+    example: "Primjer",
+    soon: "Uskoro",
+    exampleOffersTitle: "Ovako izgledaju ponude",
+    exampleOffersNote: "Ovo su primjeri za prikaz. Prve prave ponude stižu uskoro; registriraj se i javit ćemo ti.",
+    exampleOffers: [
+      { name: "Prirodna krema za ruke", brand: "Primjer brenda", price: 14.9, discount: 70 },
+      { name: "Pamučna majica s printom", brand: "Primjer brenda", price: 24.9, discount: 60 },
+      { name: "Domaći namaz od lješnjaka", brand: "Primjer brenda", price: 8.5, discount: 100 },
+    ],
+    exampleReviewsTitle: "Ovako izgleda recenzija testera",
+    exampleReviewsNote: "Ovo su primjeri za prikaz, a ne stvarne recenzije. Ovdje će se prikazivati recenzije pravih testera čim budu objavljene.",
+    exampleReviews: [
+      { rating: 5, product: "Krema za ruke", title: "Upija se za minutu", body: "Koristim je dva tjedna svaku večer. Ne ostavlja mastan trag, a miris je blag. Tuba je mala, pa se brzo potroši." },
+      { rating: 4, product: "Pamučna majica", title: "Dobar kroj, print drži", body: "Nakon tri pranja print je isti. Kroj je nešto uži od očekivanog, pa bih idući put uzeo broj veću." },
+      { rating: 3, product: "Namaz od lješnjaka", title: "Fin, ali presladak za mene", body: "Okus lješnjaka je izražen i tekstura je kremasta. Meni je ipak presladak, a staklenka je manja nego na slici." },
+    ],
     brandEyebrow: "Za brendove",
     brandTitle: "Prve recenzije i fotografije kupaca, bez nagađanja",
     brandText:
